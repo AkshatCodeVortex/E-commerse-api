@@ -1,15 +1,25 @@
 var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
-var router = express.Router();
+// var router = express.Router();
 const { v4: uuidv4 } = require("uuid");
 var MongoClient = require("mongodb").MongoClient;
 app.use(bodyParser.json());
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 app.use(bodyParser.urlencoded({ extended: true }));
 var dbUrl =
   "mongodb+srv://Akshat_Verma:akshat1234@cluster0.d4yimus.mongodb.net/";
 var dbName = "ecommerce";
+
+var nodemailer = require("nodemailer");
+var transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "akshatv092@gmail.com",
+    pass: "akshatV@123",
+  },
+});
+
 
 // Use connect method to connect to the server
 MongoClient.connect(dbUrl, function (err, client) {
@@ -133,7 +143,6 @@ app.post("/otpverify", (req, res) => {
           if (err) {
             res.end("Registration Error1");
             console.warn(err.message); // returns error if no matching object found
-          } else {
           }
         });
         res.json({ email: email, otpverify: true, msg: "login sucessfull" });
